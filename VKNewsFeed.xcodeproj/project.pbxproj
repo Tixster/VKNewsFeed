@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AA45A2826CC4BC4003C2407 /* NewsFeedCellLayoutCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA45A2726CC4BC4003C2407 /* NewsFeedCellLayoutCalculator.swift */; };
+		3AA45A2A26CC5580003C2407 /* String + Height.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA45A2926CC5580003C2407 /* String + Height.swift */; };
+		3AE89DDC26CD4F50007D516B /* NewsFeedCodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE89DDB26CD4F50007D516B /* NewsFeedCodeCell.swift */; };
 		3AEE800326C848F400E80E72 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE800226C848F400E80E72 /* AuthService.swift */; };
 		3AEE800526C84C8C00E80E72 /* Pods_VKNewsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6621D72A942445DF00933720 /* Pods_VKNewsFeed.framework */; };
 		3AEE800626C84C8C00E80E72 /* Pods_VKNewsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6621D72A942445DF00933720 /* Pods_VKNewsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -44,6 +47,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3AA45A2726CC4BC4003C2407 /* NewsFeedCellLayoutCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedCellLayoutCalculator.swift; sourceTree = "<group>"; };
+		3AA45A2926CC5580003C2407 /* String + Height.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Height.swift"; sourceTree = "<group>"; };
+		3AE89DDB26CD4F50007D516B /* NewsFeedCodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedCodeCell.swift; sourceTree = "<group>"; };
 		3AEE800126C8471300E80E72 /* VKNewsFeed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VKNewsFeed-Bridging-Header.h"; sourceTree = "<group>"; };
 		3AEE800226C848F400E80E72 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		3AEE800C26C8595200E80E72 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -171,7 +177,9 @@
 			isa = PBXGroup;
 			children = (
 				3AFC283126CAE091009C350B /* NewsFeedCell.swift */,
+				3AA45A2726CC4BC4003C2407 /* NewsFeedCellLayoutCalculator.swift */,
 				3AFC283226CAE091009C350B /* NewsFeedCell.xib */,
+				3AE89DDB26CD4F50007D516B /* NewsFeedCodeCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -180,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				3AFC283626CB160A009C350B /* WebImageView.swift */,
+				3AA45A2926CC5580003C2407 /* String + Height.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -320,8 +329,11 @@
 				3AF6C41026C844D0007BCCFF /* AppDelegate.swift in Sources */,
 				3AEE800F26C859F400E80E72 /* API.swift in Sources */,
 				3AEE800326C848F400E80E72 /* AuthService.swift in Sources */,
+				3AE89DDC26CD4F50007D516B /* NewsFeedCodeCell.swift in Sources */,
 				3AFC283726CB160A009C350B /* WebImageView.swift in Sources */,
+				3AA45A2826CC4BC4003C2407 /* NewsFeedCellLayoutCalculator.swift in Sources */,
 				3AFC282D26CAD5D0009C350B /* NewsFeedViewController.swift in Sources */,
+				3AA45A2A26CC5580003C2407 /* String + Height.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,9 @@ protocol NewsFeedPresentationLogic {
 }
 
 class NewsFeedPresenter: NewsFeedPresentationLogic {
+    
+    var cellLayoutCalculator: FeedCellLayoutCalculatorProtocol = NewsFeedCellLayoutCalculator()
+    
     weak var viewController: NewsFeedDisplayLogic?
     private let dateFormatter: DateFormatter = {
         let formmater = DateFormatter()
@@ -25,9 +28,12 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
         
         switch response {
         
-        case .presentNewsFeed(let feed):
+        case .presentNewsFeed(let feed, let revealedPostIds):
+            
+            print(revealedPostIds)
+            
             let cells = feed.items.map { feedItem in
-                cellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups)
+                cellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups, revealedPostIds: revealedPostIds)
             }
             let feedViewModel = FeedViewModel(cells: cells)
             
@@ -36,13 +42,17 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
         
     }
     
-    private func cellViewModel(from feedItem: FeedItems, profiles: [Profile], groups: [Group]) -> FeedViewModel.Cell {
+    private func cellViewModel(from feedItem: FeedItems, profiles: [Profile], groups: [Group], revealedPostIds: [Int]) -> FeedViewModel.Cell {
         
         let profile = profile(for: feedItem.sourceId, profiles: profiles, groups: groups)
         
         let date = Date(timeIntervalSince1970: feedItem.date)
         let dateTitle = dateFormatter.string(from: date)
         let photoAttachment = self.photoAttachment(feedItem: feedItem)
+        let isFullSised = revealedPostIds.contains(feedItem.postId)
+
+        let sizes = cellLayoutCalculator.sizes(postText: feedItem.text, photoAttachment: photoAttachment, isFullSizedPost: isFullSised)
+        
         
         return FeedViewModel.Cell(iconUrlString: profile.photo,
                                   name: profile.name,
@@ -52,7 +62,9 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
                                   comments: String(feedItem.comments?.count ?? 0),
                                   shares: String(feedItem.reposts?.count ?? 0),
                                   view: String(feedItem.views?.count ?? 0),
-                                  photoAttahcment: photoAttachment)
+                                  photoAttahcment: photoAttachment,
+                                  sizes: sizes,
+                                  postId: feedItem.postId)
     }
     
     private func profile(for sourseId: Int, profiles: [Profile], groups: [Group]) -> ProfileReperesentable {

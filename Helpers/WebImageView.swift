@@ -11,10 +11,11 @@ import UIKit
 class WebImageView: UIImageView {
     
     func set(imageURL: String?) {
-        guard let imageURL = imageURL, let url = URL(string: imageURL) else { return  }
+        guard let imageURL = imageURL, let url = URL(string: imageURL) else {
+            self.image = nil
+            return  }
         if let cachedResponse = URLCache.shared.cachedResponse(for: URLRequest(url: url)) {
             self.image = UIImage(data: cachedResponse.data)
-            print("cache")
         } else {
             let dataTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                 DispatchQueue.main.async {
@@ -22,7 +23,6 @@ class WebImageView: UIImageView {
                         self?.image = UIImage(data: data)
                         self?.handleLoadedImage(data: data, response: response)
                     }
-                    print("inet")
                 }
             }
             dataTask.resume()

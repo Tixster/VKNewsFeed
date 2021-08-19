@@ -5,4 +5,6 @@
 - User Authorization / Registration
 - JSON Decodable
 - Asynchronous Data Fetching
-- Auto Layout Programmatically / using XIB
+- Auto Layout Programmatically (Snap Kit) / using XIB
+- UITableViewCells Dynamic Behavior
+- Loading and Caching Images

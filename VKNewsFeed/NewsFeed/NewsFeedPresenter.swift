@@ -48,10 +48,10 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
         
         let date = Date(timeIntervalSince1970: feedItem.date)
         let dateTitle = dateFormatter.string(from: date)
-        let photoAttachment = self.photoAttachment(feedItem: feedItem)
         let isFullSised = revealedPostIds.contains(feedItem.postId)
+        let photoAttachments = photoAttachments(feedItem: feedItem)
 
-        let sizes = cellLayoutCalculator.sizes(postText: feedItem.text, photoAttachment: photoAttachment, isFullSizedPost: isFullSised)
+        let sizes = cellLayoutCalculator.sizes(postText: feedItem.text, photoAttachments: photoAttachments, isFullSizedPost: isFullSised)
         
         
         return FeedViewModel.Cell(iconUrlString: profile.photo,
@@ -62,7 +62,7 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
                                   comments: String(feedItem.comments?.count ?? 0),
                                   shares: String(feedItem.reposts?.count ?? 0),
                                   view: String(feedItem.views?.count ?? 0),
-                                  photoAttahcment: photoAttachment,
+                                  photoAttachements: photoAttachments,
                                   sizes: sizes,
                                   postId: feedItem.postId)
     }
@@ -84,6 +84,16 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
         return FeedViewModel.FeedCellPhotoAttachment(photoUrlString: firstPhoto.srcBIG,
                                                      width: firstPhoto.width,
                                                      height: firstPhoto.height)
+    }
+    
+    private func photoAttachments(feedItem: FeedItems) -> [FeedViewModel.FeedCellPhotoAttachment] {
+        guard let attachmets = feedItem.attachments else { return [] }
+        return attachmets.compactMap ({ attachmet in
+            guard let photo = attachmet.photo else { return nil }
+            return FeedViewModel.FeedCellPhotoAttachment(photoUrlString: photo.srcBIG,
+                                                         width: photo.width,
+                                                         height: photo.height)
+        })
     }
     
 }

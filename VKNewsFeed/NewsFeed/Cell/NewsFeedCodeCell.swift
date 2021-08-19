@@ -19,6 +19,8 @@ final class NewsFeedCodeCell: UITableViewCell {
     
     weak var delegate: NewsFeedCodeCellDelegate?
     
+    private let galleryCollectionView = GalleryCollectionView()
+    
     private let cardView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -163,15 +165,22 @@ final class NewsFeedCodeCell: UITableViewCell {
         viewsLable.text = viewModel.view
         
         postLabel.frame = viewModel.sizes.postLableFrame
-        postImageView.frame = viewModel.sizes.attahcmentFrame
         bottomView.frame = viewModel.sizes.bottomViewFrame
         moreTextButton.frame = viewModel.sizes.moreTextButtonFrame
-        
-        if let photoAttachment = viewModel.photoAttahcment {
+
+        if let photoAttachment = viewModel.photoAttachements.first, viewModel.photoAttachements.count == 1 {
             postImageView.set(imageURL: photoAttachment.photoUrlString)
             postImageView.isHidden = false
+            galleryCollectionView.isHidden = true
+            postImageView.frame = viewModel.sizes.attahcmentFrame
+        } else if viewModel.photoAttachements.count > 1 {
+            galleryCollectionView.frame = viewModel.sizes.attahcmentFrame
+            postImageView.isHidden = true
+            galleryCollectionView.isHidden = false
+            galleryCollectionView.set(photos: viewModel.photoAttachements)
         } else {
             postImageView.isHidden = true
+            galleryCollectionView.isHidden = true
         }
         
     }
@@ -192,6 +201,7 @@ final class NewsFeedCodeCell: UITableViewCell {
         cardView.addSubview(moreTextButton)
         cardView.addSubview(postImageView)
         cardView.addSubview(bottomView)
+        cardView.addSubview(galleryCollectionView)
         
         cardView.snp.makeConstraints({
             $0.top.equalToSuperview()
@@ -290,5 +300,7 @@ final class NewsFeedCodeCell: UITableViewCell {
             $0.leading.equalTo(imageView.snp.trailing).offset(5)
         })
     }
+    
+    
     
 }

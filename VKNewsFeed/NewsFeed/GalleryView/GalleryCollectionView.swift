@@ -13,13 +13,15 @@ class GalleryCollectionView: UICollectionView {
     private var photos = [FeedCellPhotoAttachmentViewModel]()
     
     init() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        super.init(frame: .zero, collectionViewLayout: layout)
+        let rowLyaout = RowLayout()
+        super.init(frame: .zero, collectionViewLayout: rowLyaout)
+        rowLyaout.delegate = self
         register(GalleryCollectionViewCell.self, forCellWithReuseIdentifier: GalleryCollectionViewCell.cellId)
         delegate = self
         dataSource = self
-        backgroundColor = .systemPink
+        backgroundColor = .white
+        showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = false
     }
     
     required init?(coder: NSCoder) {
@@ -28,12 +30,19 @@ class GalleryCollectionView: UICollectionView {
     
     func set(photos: [FeedCellPhotoAttachmentViewModel]) {
         self.photos = photos
+        contentOffset = CGPoint.zero
         reloadData()
     }
     
 }
 
-extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataSource  {
+extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataSource, RowLayoutDelegate  {
+    func collectionView(_ collectionView: UICollectionView, photoAtIndexPath indexPath: IndexPath) -> CGSize {
+        let width = photos[indexPath.row].width
+        let height = photos[indexPath.row].height
+        return CGSize(width: width, height: height)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
@@ -42,6 +51,10 @@ extension GalleryCollectionView: UICollectionViewDelegate, UICollectionViewDataS
         let cell = dequeueReusableCell(withReuseIdentifier: GalleryCollectionViewCell.cellId, for: indexPath) as! GalleryCollectionViewCell
         cell.set(imageUrl: photos[indexPath.item].photoUrlString)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: frame.width, height: frame.height)
     }
     
     

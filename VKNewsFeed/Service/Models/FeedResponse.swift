@@ -15,6 +15,12 @@ struct FeedResponse: Decodable {
     var items: [FeedItems]
     var profiles: [Profile]
     var groups: [Group]
+    var nextFrom: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case nextFrom = "next_from"
+        case items, profiles, groups
+    }
 }
 
 struct FeedItems: Decodable {

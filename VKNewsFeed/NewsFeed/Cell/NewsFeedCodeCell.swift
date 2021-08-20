@@ -30,14 +30,7 @@ final class NewsFeedCodeCell: UITableViewCell {
     }()
     
     private let topView = UIView()
-    
-//    private let postLabel: UILabel = {
-//        let lable = UILabel()
-//        lable.numberOfLines = 0
-//        lable.font = Constants.postLableFont
-//        return lable
-//    }()
-    
+
     private let postLabel: UITextView = {
         let textView = UITextView()
         textView.font = Constants.postLableFont

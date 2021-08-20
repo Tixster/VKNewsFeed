@@ -33,12 +33,15 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
             let cells = feed.items.map { feedItem in
                 cellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups, revealedPostIds: revealedPostIds)
             }
-            let feedViewModel = FeedViewModel(cells: cells)
+            let footerTitle = String.localizedStringWithFormat(NSLocalizedString("newsFeed cells count", comment: ""), cells.count)
+            let feedViewModel = FeedViewModel(cells: cells, footerTitle: footerTitle)
             
             viewController?.displayData(viewModel: .displayNewsFeed(feedViewModel: feedViewModel))
         case .presentUserInfo(let user):
             let userViewModel = UserViewModel(photoUrlString: user?.photo100)
             viewController?.displayData(viewModel: .displayUser(userViewModel: userViewModel))
+        case .presentFooterLoader:
+            viewController?.displayData(viewModel: .displayFooterLoaerd)
         }
         
     }

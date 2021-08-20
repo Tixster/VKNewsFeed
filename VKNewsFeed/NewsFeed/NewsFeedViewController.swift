@@ -27,13 +27,14 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
         return table
     }()
     
-    private var feedViewModel = FeedViewModel(cells: [])
+    private var feedViewModel = FeedViewModel(cells: [], footerTitle: nil)
     private var titleView = TitleView()
     private var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return control
     }()
+    private lazy var footerView = FooterView()
     
     // MARK: Setup
     
@@ -83,8 +84,17 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
             self.feedViewModel = feedViewModel
             tableView.reloadData()
             refreshControl.endRefreshing()
+            footerView.setTitle(title: feedViewModel.footerTitle)
         case .displayUser(let userViewModel):
             titleView.set(userViewModel: userViewModel)
+        case .displayFooterLoaerd:
+            footerView.showLoader()
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y > scrollView.contentSize.height / 1.1 {
+            interactor?.makeRequest(request: .getNextBatch)
         }
     }
     
@@ -96,6 +106,7 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
         
         let topInset: CGFloat = 8
         tableView.contentInset.top = topInset
+        tableView.tableFooterView = footerView
         
         tableView.snp.makeConstraints( {
             $0.edges.equalToSuperview()

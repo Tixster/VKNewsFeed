@@ -31,11 +31,24 @@ final class NewsFeedCodeCell: UITableViewCell {
     
     private let topView = UIView()
     
-    private let postLabel: UILabel = {
-        let lable = UILabel()
-        lable.numberOfLines = 0
-        lable.font = Constants.postLableFont
-        return lable
+//    private let postLabel: UILabel = {
+//        let lable = UILabel()
+//        lable.numberOfLines = 0
+//        lable.font = Constants.postLableFont
+//        return lable
+//    }()
+    
+    private let postLabel: UITextView = {
+        let textView = UITextView()
+        textView.font = Constants.postLableFont
+        textView.isScrollEnabled = false
+        textView.isSelectable = true
+        textView.isUserInteractionEnabled = true
+        textView.isEditable = false
+        textView.dataDetectorTypes = UIDataDetectorTypes.all
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
+        return textView
     }()
     
     private let postImageView: WebImageView = {

@@ -54,18 +54,30 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
 
         let sizes = cellLayoutCalculator.sizes(postText: feedItem.text, photoAttachments: photoAttachments, isFullSizedPost: isFullSised)
         
+        let postText = feedItem.text?.replacingOccurrences(of: "<br>", with: "/n")
         
         return FeedViewModel.Cell(iconUrlString: profile.photo,
                                   name: profile.name,
                                   date: dateTitle,
-                                  text: feedItem.text,
-                                  likes: String(feedItem.likes?.count ?? 0),
-                                  comments: String(feedItem.comments?.count ?? 0),
-                                  shares: String(feedItem.reposts?.count ?? 0),
-                                  view: String(feedItem.views?.count ?? 0),
+                                  text: postText,
+                                  likes: formatterCounter(feedItem.likes?.count),
+                                  comments: formatterCounter(feedItem.comments?.count),
+                                  shares: formatterCounter(feedItem.reposts?.count),
+                                  view: formatterCounter(feedItem.views?.count),
                                   photoAttachements: photoAttachments,
                                   sizes: sizes,
                                   postId: feedItem.postId)
+    }
+    
+    private func formatterCounter(_ counter: Int?) -> String? {
+        guard let counter = counter, counter > 0 else { return nil }
+        var counterString = "\(counter)"
+        if 4...6 ~= counterString.count {
+            counterString = String(counterString.dropLast(3)) + "K"
+        } else if counterString.count > 6 {
+            counterString = String(counterString.dropLast(6)) + "M"
+        }
+        return counterString
     }
     
     private func profile(for sourseId: Int, profiles: [Profile], groups: [Group]) -> ProfileReperesentable {

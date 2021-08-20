@@ -21,6 +21,7 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
         let table = UITableView(frame: .zero, style: .plain)
         table.delegate = self
         table.dataSource = self
+        table.separatorStyle = .none
         table.register(UINib(nibName: NewsFeedCell.cellId, bundle: nil), forCellReuseIdentifier: NewsFeedCell.cellId)
         table.register(NewsFeedCodeCell.self, forCellReuseIdentifier: NewsFeedCodeCell.cellId)
         return table
@@ -28,6 +29,11 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
     
     private var feedViewModel = FeedViewModel(cells: [])
     private var titleView = TitleView()
+    private var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return control
+    }()
     
     // MARK: Setup
     
@@ -65,12 +71,18 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
         navigationItem.titleView = titleView
     }
     
+    @objc
+    private func refresh() {
+        interactor?.makeRequest(request: .getNewsFeed)
+    }
+    
     func displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData) {
         switch viewModel {
         
         case .displayNewsFeed(let feedViewModel):
             self.feedViewModel = feedViewModel
             tableView.reloadData()
+            refreshControl.endRefreshing()
         case .displayUser(let userViewModel):
             titleView.set(userViewModel: userViewModel)
         }
@@ -78,9 +90,13 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
     
     private func setupTableView() {
         view.addSubview(tableView)
-        tableView.separatorStyle = .none
+        tableView.addSubview(refreshControl)
         tableView.backgroundColor = .clear
         view.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
+        let topInset: CGFloat = 8
+        tableView.contentInset.top = topInset
+        
         tableView.snp.makeConstraints( {
             $0.edges.equalToSuperview()
         })

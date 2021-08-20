@@ -8,3 +8,5 @@
 - Auto Layout Programmatically (Snap Kit) / using XIB
 - UITableViewCells Dynamic Behavior
 - Loading and Caching Images
+- Nested UICollectionViews
+- UICollectionView Custom Layout

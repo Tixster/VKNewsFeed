@@ -10,3 +10,5 @@
 - Loading and Caching Images
 - Nested UICollectionViews
 - UICollectionView Custom Layout
+- UINavigationController
+- Custom Shadows

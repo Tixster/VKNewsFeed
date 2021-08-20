@@ -24,6 +24,10 @@ class AuthService: NSObject {
         return VKSdk.accessToken()?.accessToken
     }
     
+    var userId: String? {
+        return VKSdk.accessToken().userId
+    }
+    
     static let shared = AuthService()
     
     override init() {

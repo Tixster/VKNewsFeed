@@ -29,15 +29,16 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
         switch response {
         
         case .presentNewsFeed(let feed, let revealedPostIds):
-            
-            print(revealedPostIds)
-            
+
             let cells = feed.items.map { feedItem in
                 cellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups, revealedPostIds: revealedPostIds)
             }
             let feedViewModel = FeedViewModel(cells: cells)
             
             viewController?.displayData(viewModel: .displayNewsFeed(feedViewModel: feedViewModel))
+        case .presentUserInfo(let user):
+            let userViewModel = UserViewModel(photoUrlString: user?.photo100)
+            viewController?.displayData(viewModel: .displayUser(userViewModel: userViewModel))
         }
         
     }

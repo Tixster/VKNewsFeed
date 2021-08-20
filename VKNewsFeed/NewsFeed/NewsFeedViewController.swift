@@ -27,6 +27,7 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
     }()
     
     private var feedViewModel = FeedViewModel(cells: [])
+    private var titleView = TitleView()
     
     // MARK: Setup
     
@@ -53,7 +54,15 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
         setup()
         setupTableView()
         interactor?.makeRequest(request: .getNewsFeed)
+        interactor?.makeRequest(request: .getUser)
+        setupTopBars()
         
+    }
+    
+    private func setupTopBars() {
+        navigationController?.hidesBarsOnSwipe = true
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationItem.titleView = titleView
     }
     
     func displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData) {
@@ -62,6 +71,8 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic {
         case .displayNewsFeed(let feedViewModel):
             self.feedViewModel = feedViewModel
             tableView.reloadData()
+        case .displayUser(let userViewModel):
+            titleView.set(userViewModel: userViewModel)
         }
     }
     
